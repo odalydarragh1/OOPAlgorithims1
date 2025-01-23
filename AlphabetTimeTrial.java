@@ -16,9 +16,9 @@ public class AlphabetTimeTrial {
         int incriment = 1; if (backwards) {incriment = -1;}
 
         System.out.println("First letter: " + alphabet[i]);
-        long timer = System.nanoTime();
+        long timer = System.nanoTime(); // timer starts right before the time trial begins to assure accurate timing
         while (i <= 25 && i >= 0) {
-            input = toUpperCase(in.next().charAt(0));
+            input = toUpperCase(in.next().charAt(0)); // uppercase for stability
 
             if (input == alphabet[i]) {
                 System.out.print("Correct!");
@@ -27,11 +27,11 @@ public class AlphabetTimeTrial {
                 System.out.print("Incorrect!");
             }
             
-            if (i!=-1 && i!=26){
+            if (i!=-1 && i!=26){ // keep incrimentation within array bounds
                 System.out.print("\tNext letter: " + alphabet[i] + "\n");
             }
         }
-        timer = (System.nanoTime() - timer)/1000000000;
+        timer = (System.nanoTime() - timer)/1000000000; // nanoseconds to seconds
         System.out.println("\tTime taken: " + timer + "s");
     }
 
