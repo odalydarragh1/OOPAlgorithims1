@@ -2,32 +2,38 @@ import static java.lang.Character.*;
 import java.util.Scanner;
 
 public class AlphabetTimeTrial {
-    private final char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+    static final char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
     public AlphabetTimeTrial() {
-        beginTrial(getDirection());
+        Scanner in = new Scanner(System.in); // use the same scanner for both methods for efficiency
+        beginTrial(getDirection(in), in);
     }
 
-    public void beginTrial(boolean backwards) {
-        Scanner in = new Scanner(System.in);
+    public void beginTrial(boolean backwards, Scanner in) {
         char input;
 
         int i = 0; if (backwards) {i=25;}
-        int incriment = 1; if (backwards) {incriment = -1;}
+        int increment = 1; if (backwards) {increment = -1;} // having a variable increment and index initialisation allows for less repeated code
 
         System.out.println("First letter: " + alphabet[i]);
         long timer = System.nanoTime(); // timer starts right before the time trial begins to assure accurate timing
         while (i <= 25 && i >= 0) {
-            input = toUpperCase(in.next().charAt(0)); // uppercase for stability
-
+            
+            try {
+                input = toUpperCase(in.next().charAt(0)); // uppercase for input predictability
+            } catch (Exception e) { // Catch any errors from unexpected input
+                System.out.println("Invalid input. Try again.");
+                continue;
+            }
+            
             if (input == alphabet[i]) {
                 System.out.print("Correct!");
-                i += incriment;
+                i += increment;
             } else {
                 System.out.print("Incorrect!");
             }
             
-            if (i!=-1 && i!=26){ // keep incrimentation within array bounds
+            if (i!=-1 && i!=26){ // keep incrementation within array bounds
                 System.out.print("\tNext letter: " + alphabet[i] + "\n");
             }
         }
@@ -35,29 +41,19 @@ public class AlphabetTimeTrial {
         System.out.println("\tTime taken: " + timer + "s");
     }
 
-    public boolean getDirection() {
-        boolean valid = false;
+    public boolean getDirection(Scanner in) {
         char direction;
-        boolean backwards = false;
-        Scanner input = new Scanner(System.in);
-
-        while (!valid) {
+        
+        while (true) {
             System.out.println("Enter the direction: F/B");
-            direction = toUpperCase(input.next().charAt(0));
+            direction = toUpperCase(in.next().charAt(0)); // uppercase for input predictability
 
-            if (direction == 'B') {
-                valid = true;
-                backwards = true;
-            }
+            if (direction == 'B') {return true;} // quickly return to avoid wasting resources checking the next if statment
 
-            else if (direction == 'F') {
-                valid = true;
-            }
+            else if (direction == 'F') {return false;}
 
-            else {
-                System.out.println("Invalid direction");
-            }
+            System.out.println("Invalid direction");
+            
         }
-        return backwards;
     }
 }
